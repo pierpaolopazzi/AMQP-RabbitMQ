@@ -1,0 +1,15 @@
+There are 3 domains, each one with 2 nodes
+Each domain has a different backup policy:
+- DomainA: backup on every node
+- DomainB: backup in only one node
+- DomainC: alaways backup in a node. Other node backup only if topic is about 'science'
+
+One producer (JSONGenerator) sends JSON documents to a fanout exchange (but also with a binding key)
+• Three domain managers ManagerA, ManagerB, and ManagerC consume messages from the same exchange...and then produce another message towards their domain workers
+• ManagerA publishes to a DomainA fanout
+• two publish/subscribe domain workers
+• ManagerB publishes to a DomainB work queue
+• two work queue domain workers
+• ManagerC publishes to a DomainC topic, based on received binding key gathered via method.routing_key
+• one domain worker subscribing to "#"
+• one domain worker subscribing to "science"
